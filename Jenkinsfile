@@ -169,29 +169,30 @@
 //}
 
 
-node() {
+node {
 
-  options {
-    // Specify the properties block to get dynamic dropdown values before any stage
-    properties([
-        parameters([
-            choice(
-                choices: getDropdownValues(),
-                description: 'Select an option from the dropdown',
-                name: 'DYNAMIC_DROPDOWN'
-            )
-        ])
-    ])
-  }
+    BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/raghudevopb73/learn-jenkins.git | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
 
-    stage('Example Stage') {
-        echo "Selected option in Example Stage:"
-  }
 }
+pipeline {
 
-def getDropdownValues() {
-  // Implement your logic here to generate dropdown values dynamically
-  return ['Option 1', 'Option 2', 'Option 3']
+  agent any
+
+  parameters {
+    choice(
+        name: 'BranchName',
+        choices: "${BRANCH_NAMES}",
+        description: 'to refresh the list, go to configure, disable "this build has parameters", launch build (without parameters)to reload the list and stop it, then launch it again (with parameters)'
+    )
+  }
+
+  stages {
+    stage("Run Tests") {
+      steps {
+        sh "echo SUCCESS on ${BranchName}"
+      }
+    }
+  }
 }
 
 
