@@ -171,7 +171,7 @@
 
 node {
 
-    BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/raghudevopb73/learn-jenkins.git | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
+    BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/raghudevopsb73/learn-jenkins.git | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
 
 }
 pipeline {
