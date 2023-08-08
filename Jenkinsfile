@@ -165,12 +165,5 @@ pipeline {
 // Function to generate dynamic dropdown values
 def getDropdownValues() {
   // Implement your logic here to generate dropdown values dynamically
-  random list
-  int min = 1
-  int max = 100
-  int listSize = 10
-
-// Generate the random list
-  List<Integer> randomList = (1..listSize).collect { new Random().nextInt((max - min) + 1) + min }
-  return randomList
+  return ['Option 1', 'Option 2', 'Option 3']
 }
