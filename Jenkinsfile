@@ -165,5 +165,6 @@ pipeline {
 // Function to generate dynamic dropdown values
 def getDropdownValues() {
   // Implement your logic here to generate dropdown values dynamically
-  return ['Option 1', 'Option 2', 'Option 3']
+  def some_random = sh 'echo $PID'
+  return [ some_random ]
 }
