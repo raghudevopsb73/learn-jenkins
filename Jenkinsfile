@@ -171,7 +171,7 @@
 
 node {
 
-    BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/raghudevopsb73/learn-jenkins.git | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
+    BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort', returnStdout:true).trim()
 
 }
 pipeline {
