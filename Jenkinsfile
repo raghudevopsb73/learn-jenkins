@@ -171,8 +171,9 @@
 
 node {
 
-    //BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort', returnStdout:true).trim()
-    BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/ansible/ansible | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
+    BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort ', returnStdout:true).trim()
+    print BRANCH_NAMES
+    //BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/ansible/ansible | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
 }
 pipeline {
 
