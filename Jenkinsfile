@@ -102,41 +102,68 @@
 //}
 
 
-properties([
-    parameters([
-        [
-            $class: 'ChoiceParameter',
-            choiceType: 'PT_SINGLE_SELECT',
-            name: 'Environment',
-            script: [
-                $class: 'ScriptlerScript',
-                scriptlerScriptId:'Environments.groovy'
-            ]
-        ],
-        [
-            $class: 'CascadeChoiceParameter',
-            choiceType: 'PT_SINGLE_SELECT',
-            name: 'Host',
-            referencedParameters: 'Environment',
-            script: [
-                $class: 'ScriptlerScript',
-                scriptlerScriptId:'HostsInEnv.groovy',
-                parameters: [
-                    [name:'Environment', value: '$Environment']
-                ]
-            ]
-        ]
-    ])
-])
+//properties([
+//    parameters([
+//        [
+//            $class: 'ChoiceParameter',
+//            choiceType: 'PT_SINGLE_SELECT',
+//            name: 'Environment',
+//            script: [
+//                $class: 'ScriptlerScript',
+//                scriptlerScriptId:'Environments.groovy'
+//            ]
+//        ],
+//        [
+//            $class: 'CascadeChoiceParameter',
+//            choiceType: 'PT_SINGLE_SELECT',
+//            name: 'Host',
+//            referencedParameters: 'Environment',
+//            script: [
+//                $class: 'ScriptlerScript',
+//                scriptlerScriptId:'HostsInEnv.groovy',
+//                parameters: [
+//                    [name:'Environment', value: '$Environment']
+//                ]
+//            ]
+//        ]
+//    ])
+//])
+
+//pipeline {
+//  agent any
+//  stages {
+//    stage('Build') {
+//      steps {
+//        echo "${params.Environment}"
+//        echo "${params.Host}"
+//      }
+//    }
+//  }
+//}
+
 
 pipeline {
   agent any
+  parameters {
+    // Define the dropdown parameter
+    choice(
+        choices: getDropdownValues(), // Call a function to get dynamic values
+        description: 'Select an option from the dropdown',
+        name: 'DYNAMIC_DROPDOWN'
+    )
+  }
   stages {
-    stage('Build') {
+    stage('Example Stage') {
       steps {
-        echo "${params.Environment}"
-        echo "${params.Host}"
+        // Your build steps go here
+        echo "Selected option: \${params.DYNAMIC_DROPDOWN}"
       }
     }
   }
+}
+
+// Function to generate dynamic dropdown values
+def getDropdownValues() {
+  // Implement your logic here to generate dropdown values dynamically
+  return ['Option 1', 'Option 2', 'Option 3']
 }
