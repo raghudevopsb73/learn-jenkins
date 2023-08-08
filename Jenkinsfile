@@ -169,29 +169,35 @@
 //}
 
 
-def getDropdownValues() {
-  // Implement your logic here to generate dropdown values dynamically
-  return ['Option 4', 'Option 2', 'Option 3']
-}
-
 pipeline {
   agent any
 
-  parameters {
-    choice(
-        choices: getDropdownValues(),
-        description: 'Select an option from the dropdown',
-        name: 'DYNAMIC_DROPDOWN'
-    )
+  options {
+    // Specify the properties block to get dynamic dropdown values before any stage
+    properties([
+        parameters([
+            choice(
+                choices: getDropdownValues(),
+                description: 'Select an option from the dropdown',
+                name: 'DYNAMIC_DROPDOWN'
+            )
+        ])
+    ])
   }
 
   stages {
     stage('Example Stage') {
       steps {
-        echo "Selected option: ${params.DYNAMIC_DROPDOWN}"
+        echo "Selected option in Example Stage: ${params.DYNAMIC_DROPDOWN}"
       }
     }
     // Add more stages as needed
   }
 }
+
+def getDropdownValues() {
+  // Implement your logic here to generate dropdown values dynamically
+  return ['Option 1', 'Option 2', 'Option 3']
+}
+
 
