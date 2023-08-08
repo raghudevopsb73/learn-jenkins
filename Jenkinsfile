@@ -169,32 +169,74 @@
 //}
 
 
-node('workstation') {
+//node('workstation') {
+//
+//    BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort ', returnStdout:true).trim()
+//    print BRANCH_NAMES
+//    //BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/ansible/ansible | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
+//}
+//pipeline {
+//
+//  agent {
+//      node {
+//          label 'workstation'
+//      }
+//  }
+//
+//  parameters {
+//    choice(
+//        name: 'BranchName',
+//        choices: "${BRANCH_NAMES}",
+//        description: 'to refresh the list, go to configure, disable "this build has parameters", launch build (without parameters)to reload the list and stop it, then launch it again (with parameters)'
+//    )
+//  }
+//
+//  stages {
+//    stage("Run Tests") {
+//      steps {
+//        sh "echo SUCCESS on ${BranchName}"
+//      }
+//    }
+//  }
+//}
 
-    BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort ', returnStdout:true).trim()
-    print BRANCH_NAMES
-    //BRANCH_NAMES = sh (script: 'git ls-remote -h https://github.com/ansible/ansible | sed \'s/\\(.*\\)\\/\\(.*\\)/\\2/\' ', returnStdout:true).trim()
-}
+
 pipeline {
-
-  agent {
-      node {
-          label 'workstation'
-      }
-  }
+  agent any
 
   parameters {
     choice(
-        name: 'BranchName',
-        choices: "${BRANCH_NAMES}",
-        description: 'to refresh the list, go to configure, disable "this build has parameters", launch build (without parameters)to reload the list and stop it, then launch it again (with parameters)'
+        choices: 'OptionA\nOptionB\nOptionC',
+        description: 'Select an option',
+        name: 'FIRST_OPTION'
+    )
+    activeChoiceReactiveParam(
+        choiceType: 'PT_SINGLE_SELECT',
+        description: 'Select a value based on the first option',
+        name: 'SECOND_OPTION',
+        script: [
+            classpath: [],
+            sandbox: false,
+            script: """
+                    if (FIRST_OPTION == 'OptionA') {
+                        return ['ValueA1', 'ValueA2', 'ValueA3']
+                    } else if (FIRST_OPTION == 'OptionB') {
+                        return ['ValueB1', 'ValueB2']
+                    } else if (FIRST_OPTION == 'OptionC') {
+                        return ['ValueC1', 'ValueC2', 'ValueC3', 'ValueC4']
+                    } else {
+                        return []
+                    }
+                """
+        ]
     )
   }
 
   stages {
-    stage("Run Tests") {
+    stage('Example Stage') {
       steps {
-        sh "echo SUCCESS on ${BranchName}"
+        echo "Selected FIRST_OPTION: ${FIRST_OPTION}"
+        echo "Selected SECOND_OPTION: ${SECOND_OPTION}"
       }
     }
   }
