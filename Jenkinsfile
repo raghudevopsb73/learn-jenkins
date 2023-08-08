@@ -169,7 +169,7 @@
 //}
 
 
-node {
+node('workstation') {
 
     BRANCH_NAMES = sh (script: 'aws ecr describe-images --repository-name  frontend  --query \'imageDetails[*].imageTags\' --output text | sort ', returnStdout:true).trim()
     print BRANCH_NAMES
@@ -177,7 +177,11 @@ node {
 }
 pipeline {
 
-  agent any
+  agent {
+      node {
+          label 'workstation'
+      }
+  }
 
   parameters {
     choice(
