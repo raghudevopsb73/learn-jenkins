@@ -211,7 +211,7 @@ pipeline {
         name: 'FIRST_OPTION'
     )
     activeChoiceReactiveParam(
-        choiceType: 'PT_SINGLE_SELECT',
+        choiceType: 'choice',
         description: 'Select a value based on the first option',
         name: 'SECOND_OPTION',
         script: [
