@@ -169,8 +169,7 @@
 //}
 
 
-pipeline {
-  agent any
+node() {
 
   options {
     // Specify the properties block to get dynamic dropdown values before any stage
@@ -185,13 +184,8 @@ pipeline {
     ])
   }
 
-  stages {
     stage('Example Stage') {
-      steps {
-        echo "Selected option in Example Stage: ${params.DYNAMIC_DROPDOWN}"
-      }
-    }
-    // Add more stages as needed
+        echo "Selected option in Example Stage:"
   }
 }
 
