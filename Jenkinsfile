@@ -264,7 +264,7 @@ properties([
          ]
         ],
         [$class: 'CascadeChoiceParameter',
-         choiceType: 'PT_CHECKBOX',
+         choiceType: 'PT_SINGLE_SELECT',
          description: 'Select Servers',
          filterLength: 1,
          filterable: true,
