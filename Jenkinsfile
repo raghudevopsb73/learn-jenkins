@@ -206,10 +206,15 @@ properties([
         [
             $class: 'ChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',
-            name: 'Environment',
+            name: 'COMPONENT',
             script: [
-                $class: 'ScriptlerScript',
-                scriptlerScriptId:'Environments.groovy'
+                classpath: [],
+                sandbox: false,
+                script:
+                    ''' 
+                      def x = "/opt/aws-ecr-for-jenkins-param".execute()
+                      return x.in.text.tokenize()
+                    '''
             ]
         ],
         [
@@ -218,10 +223,15 @@ properties([
             name: 'Host',
             referencedParameters: 'Environment',
             script: [
-                $class: 'ScriptlerScript',
-                scriptlerScriptId:'HostsInEnv.groovy',
+                classpath: [],
+                sandbox: false,
+                script:
+                    ''' 
+                      def x = "/opt/aws-ecr-for-jenkins-param".execute()
+                      return x.in.text.tokenize()
+                    ''',
                 parameters: [
-                    [name:'Environment', value: '$Environment']
+                    [name:'COMPONENT', value: '$COMPONENT']
                 ]
             ]
         ]
