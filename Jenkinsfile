@@ -265,7 +265,7 @@ properties([
         ],
         [$class: 'CascadeChoiceParameter',
          choiceType: 'PT_SINGLE_SELECT',
-         description: 'Select Servers',
+         description: 'Select the Server from the Dropdown List',
          filterLength: 1,
          filterable: true,
          name: 'Server',
@@ -284,18 +284,18 @@ properties([
                  sandbox: false,
                  script:
                      ''' if (Env.equals("Dev")){
-                            return["devaaa001","devaaa002","devbbb001","devbbb002","devccc001","devccc002"]
-                        }
-                        else if(Env.equals("QA")){
-                            return["qaaaa001","qabbb002","qaccc003"]
-                        }
-                        else if(Env.equals("Stage")){
-                            return["staaa001","stbbb002","stccc003"]
-                        }
-                        else if(Env.equals("Prod")){
-                            return["praaa001","prbbb002","prccc003"]
-                        }
-                    '''
+                                return["devaaa001","devaaa002","devbbb001","devbbb002","devccc001","devccc002"]
+                            }
+                            else if(Env.equals("QA")){
+                                return["qaaaa001","qabbb002","qaccc003"]
+                            }
+                            else if(Env.equals("Stage")){
+                                return["staaa001","stbbb002","stccc003"]
+                            }
+                            else if(Env.equals("Prod")){
+                                return["praaa001","prbbb002","prccc003"]
+                            }
+                        '''
              ]
          ]
         ]
