@@ -201,45 +201,41 @@
 //}
 
 
+properties([
+    parameters([
+        [
+            $class: 'ChoiceParameter',
+            choiceType: 'PT_SINGLE_SELECT',
+            name: 'Environment',
+            script: [
+                $class: 'ScriptlerScript',
+                scriptlerScriptId:'Environments.groovy'
+            ]
+        ],
+        [
+            $class: 'CascadeChoiceParameter',
+            choiceType: 'PT_SINGLE_SELECT',
+            name: 'Host',
+            referencedParameters: 'Environment',
+            script: [
+                $class: 'ScriptlerScript',
+                scriptlerScriptId:'HostsInEnv.groovy',
+                parameters: [
+                    [name:'Environment', value: '$Environment']
+                ]
+            ]
+        ]
+    ])
+])
+
 pipeline {
   agent any
-
-  parameters {
-    choice(
-        choices: 'OptionA\nOptionB\nOptionC',
-        description: 'Select an option',
-        name: 'FIRST_OPTION'
-    )
-    activeChoiceReactiveParam(
-        choiceType: 'choice',
-        description: 'Select a value based on the first option',
-        name: 'SECOND_OPTION',
-        script: [
-            classpath: [],
-            sandbox: false,
-            script: """
-                    if (FIRST_OPTION == 'OptionA') {
-                        return ['ValueA1', 'ValueA2', 'ValueA3']
-                    } else if (FIRST_OPTION == 'OptionB') {
-                        return ['ValueB1', 'ValueB2']
-                    } else if (FIRST_OPTION == 'OptionC') {
-                        return ['ValueC1', 'ValueC2', 'ValueC3', 'ValueC4']
-                    } else {
-                        return []
-                    }
-                """
-        ]
-    )
-  }
-
   stages {
-    stage('Example Stage') {
+    stage('Build') {
       steps {
-        echo "Selected FIRST_OPTION: ${FIRST_OPTION}"
-        echo "Selected SECOND_OPTION: ${SECOND_OPTION}"
+        echo "${params.Environment}"
+        echo "${params.Host}"
       }
     }
   }
 }
-
-
