@@ -300,6 +300,7 @@ properties([
          ]
         ]
     ])
+])
 
 pipeline {
   agent any
